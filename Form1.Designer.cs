@@ -46,9 +46,10 @@
             tBInverse = new TextBox();
             tBSLAU = new TextBox();
             btnSLAU = new Button();
-            checkBox3 = new CheckBox();
-            checkBox4 = new CheckBox();
-            checkBox5 = new CheckBox();
+            chBoxProtocol = new CheckBox();
+            chBoxOnTheScreen = new CheckBox();
+            chBoxAtTheFile = new CheckBox();
+            saveFileDialog1 = new SaveFileDialog();
             SuspendLayout();
             // 
             // label1
@@ -97,7 +98,7 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Italic);
-            label4.Location = new Point(234, 9);
+            label4.Location = new Point(311, 9);
             label4.Name = "label4";
             label4.Size = new Size(96, 20);
             label4.TabIndex = 5;
@@ -107,7 +108,7 @@
             // 
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Bold | FontStyle.Italic);
-            label5.Location = new Point(411, 9);
+            label5.Location = new Point(536, 9);
             label5.Name = "label5";
             label5.Size = new Size(95, 20);
             label5.TabIndex = 6;
@@ -115,18 +116,20 @@
             // 
             // tBMatrix1
             // 
+            tBMatrix1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             tBMatrix1.Location = new Point(210, 38);
             tBMatrix1.Multiline = true;
             tBMatrix1.Name = "tBMatrix1";
-            tBMatrix1.Size = new Size(160, 108);
+            tBMatrix1.ScrollBars = ScrollBars.Both;
+            tBMatrix1.Size = new Size(300, 145);
             tBMatrix1.TabIndex = 7;
             // 
             // tBMatrix2
             // 
-            tBMatrix2.Location = new Point(401, 38);
+            tBMatrix2.Location = new Point(536, 38);
             tBMatrix2.Multiline = true;
             tBMatrix2.Name = "tBMatrix2";
-            tBMatrix2.Size = new Size(103, 108);
+            tBMatrix2.Size = new Size(95, 145);
             tBMatrix2.TabIndex = 8;
             // 
             // btnGenerate
@@ -138,6 +141,7 @@
             btnGenerate.TabIndex = 9;
             btnGenerate.Text = "Згенерувати";
             btnGenerate.UseVisualStyleBackColor = true;
+            btnGenerate.Click += btnGenerate_Click;
             // 
             // checkBox1
             // 
@@ -148,6 +152,7 @@
             checkBox1.TabIndex = 10;
             checkBox1.Text = "матриця А";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // checkBox2
             // 
@@ -158,99 +163,112 @@
             checkBox2.TabIndex = 11;
             checkBox2.Text = "матриця В";
             checkBox2.UseVisualStyleBackColor = true;
+            checkBox2.CheckedChanged += checkBox2_CheckedChanged;
             // 
             // btnRang
             // 
             btnRang.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnRang.Location = new Point(539, 9);
+            btnRang.Location = new Point(22, 215);
             btnRang.Name = "btnRang";
             btnRang.Size = new Size(249, 29);
             btnRang.TabIndex = 12;
             btnRang.Text = "Знайти ранг матриці";
             btnRang.UseVisualStyleBackColor = true;
+            btnRang.Click += btnRang_Click;
             // 
             // tBRang
             // 
-            tBRang.Location = new Point(539, 35);
+            tBRang.Font = new Font("Segoe UI", 15F);
+            tBRang.Location = new Point(22, 241);
             tBRang.Name = "tBRang";
-            tBRang.Size = new Size(249, 27);
+            tBRang.Size = new Size(249, 41);
             tBRang.TabIndex = 13;
+            tBRang.TextAlign = HorizontalAlignment.Center;
             // 
             // btnInverse
             // 
             btnInverse.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnInverse.Location = new Point(539, 79);
+            btnInverse.Location = new Point(288, 215);
             btnInverse.Name = "btnInverse";
-            btnInverse.Size = new Size(249, 29);
+            btnInverse.Size = new Size(300, 29);
             btnInverse.TabIndex = 14;
             btnInverse.Text = "Знайти обернену матрицю";
             btnInverse.UseVisualStyleBackColor = true;
+            btnInverse.Click += btnInverse_Click;
             // 
             // tBInverse
             // 
-            tBInverse.Location = new Point(587, 104);
+            tBInverse.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tBInverse.Font = new Font("Segoe UI", 9F);
+            tBInverse.Location = new Point(288, 241);
             tBInverse.Multiline = true;
             tBInverse.Name = "tBInverse";
-            tBInverse.Size = new Size(160, 108);
+            tBInverse.ScrollBars = ScrollBars.Both;
+            tBInverse.Size = new Size(300, 185);
             tBInverse.TabIndex = 15;
             // 
             // tBSLAU
             // 
-            tBSLAU.Location = new Point(587, 255);
+            tBSLAU.Font = new Font("Segoe UI", 15F);
+            tBSLAU.Location = new Point(677, 241);
             tBSLAU.Multiline = true;
             tBSLAU.Name = "tBSLAU";
-            tBSLAU.Size = new Size(160, 111);
+            tBSLAU.Size = new Size(106, 185);
             tBSLAU.TabIndex = 16;
             // 
             // btnSLAU
             // 
             btnSLAU.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnSLAU.Location = new Point(539, 229);
+            btnSLAU.Location = new Point(607, 215);
             btnSLAU.Name = "btnSLAU";
             btnSLAU.Size = new Size(249, 29);
             btnSLAU.TabIndex = 17;
             btnSLAU.Text = "Обчислити СЛАУ";
             btnSLAU.UseVisualStyleBackColor = true;
+            btnSLAU.Click += btnSLAU_Click;
             // 
-            // checkBox3
+            // chBoxProtocol
             // 
-            checkBox3.AutoSize = true;
-            checkBox3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            checkBox3.Location = new Point(22, 229);
-            checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(269, 24);
-            checkBox3.TabIndex = 18;
-            checkBox3.Text = "Формувати протокол обчислень";
-            checkBox3.UseVisualStyleBackColor = true;
+            chBoxProtocol.AutoSize = true;
+            chBoxProtocol.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            chBoxProtocol.Location = new Point(652, 61);
+            chBoxProtocol.Name = "chBoxProtocol";
+            chBoxProtocol.Size = new Size(269, 24);
+            chBoxProtocol.TabIndex = 18;
+            chBoxProtocol.Text = "Формувати протокол обчислень";
+            chBoxProtocol.UseVisualStyleBackColor = true;
+            chBoxProtocol.CheckedChanged += chBoxProtocol_CheckedChanged;
             // 
-            // checkBox4
+            // chBoxOnTheScreen
             // 
-            checkBox4.AutoSize = true;
-            checkBox4.Location = new Point(22, 259);
-            checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(95, 24);
-            checkBox4.TabIndex = 19;
-            checkBox4.Text = "На екран";
-            checkBox4.UseVisualStyleBackColor = true;
+            chBoxOnTheScreen.AutoSize = true;
+            chBoxOnTheScreen.Location = new Point(652, 91);
+            chBoxOnTheScreen.Name = "chBoxOnTheScreen";
+            chBoxOnTheScreen.Size = new Size(95, 24);
+            chBoxOnTheScreen.TabIndex = 19;
+            chBoxOnTheScreen.Text = "На екран";
+            chBoxOnTheScreen.UseVisualStyleBackColor = true;
+            chBoxOnTheScreen.CheckedChanged += chBoxOnTheScreen_CheckedChanged;
             // 
-            // checkBox5
+            // chBoxAtTheFile
             // 
-            checkBox5.AutoSize = true;
-            checkBox5.Location = new Point(192, 259);
-            checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(79, 24);
-            checkBox5.TabIndex = 20;
-            checkBox5.Text = "В файл";
-            checkBox5.UseVisualStyleBackColor = true;
+            chBoxAtTheFile.AutoSize = true;
+            chBoxAtTheFile.Location = new Point(822, 91);
+            chBoxAtTheFile.Name = "chBoxAtTheFile";
+            chBoxAtTheFile.Size = new Size(79, 24);
+            chBoxAtTheFile.TabIndex = 20;
+            chBoxAtTheFile.Text = "В файл";
+            chBoxAtTheFile.UseVisualStyleBackColor = true;
+            chBoxAtTheFile.CheckedChanged += chBoxAtTheFile_CheckedChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 381);
-            Controls.Add(checkBox5);
-            Controls.Add(checkBox4);
-            Controls.Add(checkBox3);
+            ClientSize = new Size(933, 456);
+            Controls.Add(chBoxAtTheFile);
+            Controls.Add(chBoxOnTheScreen);
+            Controls.Add(chBoxProtocol);
             Controls.Add(btnSLAU);
             Controls.Add(tBSLAU);
             Controls.Add(btnInverse);
@@ -271,6 +289,7 @@
             Controls.Add(label1);
             Name = "Form1";
             Text = "Застосування звичайних Жорданових виключень";
+            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -295,8 +314,9 @@
         private TextBox tBInverse;
         private TextBox tBSLAU;
         private Button btnSLAU;
-        private CheckBox checkBox3;
-        private CheckBox checkBox4;
-        private CheckBox checkBox5;
+        private CheckBox chBoxProtocol;
+        private CheckBox chBoxOnTheScreen;
+        private CheckBox chBoxAtTheFile;
+        private SaveFileDialog saveFileDialog1;
     }
 }
