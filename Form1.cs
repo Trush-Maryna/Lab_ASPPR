@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace Lab1_ASPPR
 {
     public partial class Form1 : Form
@@ -23,13 +21,11 @@ namespace Lab1_ASPPR
             {
                 int rows = int.Parse(tBRows.Text);
                 int columns = int.Parse(tBColumns.Text);
-
                 if (checkBox1.Checked)
                 {
                     var matrixA = MatrixGenerator.GenerateMatrix(rows, columns);
                     tBMatrix1.Text = MatrixGenerator.MatrixToString(matrixA);
                 }
-
                 if (checkBox2.Checked)
                 {
                     var matrixB = MatrixGenerator.GenerateMatrix(rows, columns);
@@ -49,7 +45,6 @@ namespace Lab1_ASPPR
                 double[,] matrix = MatrixOperations.StringToMatrix(tBMatrix1.Text);
                 int rank = MatrixOperations.CalculateRank(matrix);
                 tBRang.Text = rank.ToString();
-
                 protocol = $"Ранг матриці: {rank}";
             }
             catch (Exception ex)
@@ -76,18 +71,70 @@ namespace Lab1_ASPPR
         {
             try
             {
-                double[,] coefficients = MatrixOperations.StringToMatrix(tBMatrix1.Text);
-                double[] constants = MatrixOperations.StringToVector(tBMatrix2.Text);
-
-                var (solutions, generatedProtocol) = MatrixOperations.Solve(coefficients, constants);
-
+                double[,] matrixA = MatrixOperations.StringToMatrix(tBMatrix1.Text);
+                double[] matrixB = MatrixOperations.StringToVector(tBMatrix2.Text);
+                var (solutions, generatedProtocol) = MatrixOperations.Solve(matrixA, matrixB);
                 tBSLAU.Text = string.Join(Environment.NewLine, solutions);
-
                 protocol = generatedProtocol;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Помилка: " + ex.Message);
+            }
+        }
+
+        private void chBoxOnTheScreen_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chBoxOnTheScreen.Checked)
+            {
+                chBoxAtTheFile.Enabled = false;
+                if (!string.IsNullOrEmpty(protocol))
+                {
+                    ProtocolForm protocolForm = new ProtocolForm(protocol);
+                    protocolForm.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Протокол порожній. Виконайте обчислення, щоб заповнити протокол.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                chBoxAtTheFile.Enabled = true;
+            }
+        }
+
+        private void chBoxAtTheFile_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chBoxAtTheFile.Checked)
+            {
+                chBoxOnTheScreen.Enabled = false;
+                if (!string.IsNullOrEmpty(protocol))
+                {
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+                        saveFileDialog.Title = "Збереження протоколу";
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string filePath = saveFileDialog.FileName;
+                            System.IO.File.WriteAllText(filePath, protocol);
+                            MessageBox.Show($"Протокол збережено у файл: {filePath}", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Збереження було скасовано.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Протокол порожній. Виконайте обчислення, щоб заповнити протокол.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            else
+            {
+                chBoxOnTheScreen.Enabled = true;
             }
         }
 
@@ -129,64 +176,6 @@ namespace Lab1_ASPPR
             else
             {
                 checkBox1.Enabled = true;
-            }
-        }
-
-        private void chBoxOnTheScreen_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chBoxOnTheScreen.Checked)
-            {
-                chBoxAtTheFile.Enabled = false;
-
-                if (!string.IsNullOrEmpty(protocol))
-                {
-                    ProtocolForm protocolForm = new ProtocolForm(protocol);
-                    protocolForm.Show();
-                }
-                else
-                {
-                    MessageBox.Show("Протокол порожній. Виконайте обчислення, щоб заповнити протокол.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                chBoxAtTheFile.Enabled = true;
-            }
-        }
-
-        private void chBoxAtTheFile_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chBoxAtTheFile.Checked)
-            {
-                chBoxOnTheScreen.Enabled = false;
-
-                if (!string.IsNullOrEmpty(protocol))
-                {
-                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
-                    {
-                        saveFileDialog.Filter = "Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-                        saveFileDialog.Title = "Збереження протоколу";
-
-                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                        {
-                            string filePath = saveFileDialog.FileName;
-                            System.IO.File.WriteAllText(filePath, protocol);
-                            MessageBox.Show($"Протокол збережено у файл: {filePath}", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Збереження було скасовано.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Протокол порожній. Виконайте обчислення, щоб заповнити протокол.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            else
-            {
-                chBoxOnTheScreen.Enabled = true;
             }
         }
     }
