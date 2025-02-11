@@ -11,33 +11,65 @@ namespace Lab1_ASPPR
             double[,] tempMatrix = (double[,])matrix.Clone();
             int rank = 0;
 
-            for (int i = 0; i < Math.Min(rows, columns); i++)
+            for (int step = 0; step < Math.Min(rows, columns); step++)
             {
-                if (tempMatrix[i, i] == 0)
+                // Пошук розв'язувального елемента
+                int pivotRow = -1, pivotCol = -1;
+                double maxValue = 0.0;
+                for (int i = step; i < rows; i++)
                 {
-                    bool swapped = false;
-                    for (int j = i + 1; j < rows; j++)
+                    for (int j = step; j < columns; j++)
                     {
-                        if (tempMatrix[j, i] != 0)
+                        if (Math.Abs(tempMatrix[i, j]) > maxValue)
                         {
-                            SwapRows(tempMatrix, i, j);
-                            swapped = true;
+                            maxValue = Math.Abs(tempMatrix[i, j]);
+                            pivotRow = i;
+                            pivotCol = j;
+                        }
+                    }
+                }
+                // Якщо немає ненульового елемента, пропускаю
+                if (pivotRow == -1 || pivotCol == -1 || maxValue == 0.0)
+                {
+                    // Перевірка на повністю нульовий рядок
+                    bool allZero = true;
+                    for (int j = 0; j < columns; j++)
+                    {
+                        if (tempMatrix[step, j] != 0)
+                        {
+                            allZero = false;
                             break;
                         }
                     }
-                    if (!swapped) continue;
+                    if (allZero) continue;
                 }
-
                 rank++;
-                for (int j = 0; j < rows; j++)
+                // Переставляю рядки і стовпці
+                SwapRows(tempMatrix, step, pivotRow);
+                SwapColumns(tempMatrix, step, pivotCol);
+
+                double pivotElement = tempMatrix[step, step];
+
+                if (pivotElement == 0.0) continue;
+                // Оновлення матриці за формулою та нормалізація розв'язувального елемента
+                for (int i = 0; i < rows; i++)
                 {
-                    if (j == i) continue;
-                    double factor = tempMatrix[j, i] / tempMatrix[i, i];
-                    for (int k = 0; k < columns; k++)
+                    if (i == step) continue;
+                    for (int j = 0; j < columns; j++)
                     {
-                        tempMatrix[j, k] -= factor * tempMatrix[i, k];
+                        if (j == step) continue;
+                        tempMatrix[i, j] = (tempMatrix[i, j] * pivotElement - tempMatrix[i, step] * tempMatrix[step, j]) / pivotElement;
                     }
                 }
+                for (int i = 0; i < rows; i++)
+                {
+                    if (i != step) tempMatrix[i, step] = 0;
+                }
+                for (int j = 0; j < columns; j++)
+                {
+                    if (j != step) tempMatrix[step, j] = 0;
+                }
+                tempMatrix[step, step] = 1;
             }
             return rank;
         }
@@ -53,6 +85,17 @@ namespace Lab1_ASPPR
             }
         }
 
+        private static void SwapColumns(double[,] matrix, int col1, int col2)
+        {
+            int rows = matrix.GetLength(0);
+            for (int i = 0; i < rows; i++)
+            {
+                double temp = matrix[i, col1];
+                matrix[i, col1] = matrix[i, col2];
+                matrix[i, col2] = temp;
+            }
+        }
+
         public static double[,] InvertMatrix(double[,] matrix)
         {
             int n = matrix.GetLength(0);
@@ -60,53 +103,61 @@ namespace Lab1_ASPPR
                 throw new ArgumentException("Матриця повинна бути квадратною для обчислення оберненої.");
 
             double[,] augmentedMatrix = new double[n, 2 * n];
-
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
                 {
                     augmentedMatrix[i, j] = matrix[i, j];
-                    augmentedMatrix[i, j + n] = (i == j) ? 1 : 0; 
                 }
+                augmentedMatrix[i, i + n] = 1;
             }
-
-            for (int i = 0; i < n; i++)
+            for (int pivotRow = 0; pivotRow < n; pivotRow++)
             {
-                if (augmentedMatrix[i, i] == 0)
+                double pivotElement = augmentedMatrix[pivotRow, pivotRow];
+                if (pivotElement == 0)
                 {
                     bool swapped = false;
-                    for (int j = i + 1; j < n; j++)
+                    for (int k = pivotRow + 1; k < n; k++)
                     {
-                        if (augmentedMatrix[j, i] != 0)
+                        if (augmentedMatrix[k, pivotRow] != 0)
                         {
-                            SwapRows(augmentedMatrix, i, j);
+                            SwapRows(augmentedMatrix, pivotRow, k);
                             swapped = true;
                             break;
                         }
                     }
                     if (!swapped)
                         throw new InvalidOperationException("Матриця вироджена (не має оберненої).");
-                }
 
-                double diagonalValue = augmentedMatrix[i, i];
-                for (int j = 0; j < 2 * n; j++)
-                {
-                    augmentedMatrix[i, j] /= diagonalValue;
+                    pivotElement = augmentedMatrix[pivotRow, pivotRow];
                 }
-
-                for (int j = 0; j < n; j++)
+                for (int i = 0; i < n; i++)
                 {
-                    if (j != i)
+                    for (int j = 0; j < 2 * n; j++)
                     {
-                        double factor = augmentedMatrix[j, i];
-                        for (int k = 0; k < 2 * n; k++)
+                        if (i != pivotRow && j != pivotRow)
                         {
-                            augmentedMatrix[j, k] -= factor * augmentedMatrix[i, k];
+                            augmentedMatrix[i, j] = (augmentedMatrix[i, j] * pivotElement
+                                - augmentedMatrix[i, pivotRow] * augmentedMatrix[pivotRow, j]) / pivotElement;
                         }
                     }
                 }
+                for (int i = 0; i < n; i++)
+                {
+                    if (i != pivotRow)
+                    {
+                        augmentedMatrix[i, pivotRow] = 0;
+                    }
+                }
+                for (int j = 0; j < 2 * n; j++)
+                {
+                    if (j != pivotRow)
+                    {
+                        augmentedMatrix[pivotRow, j] /= pivotElement; 
+                    }
+                }
+                augmentedMatrix[pivotRow, pivotRow] = 1; 
             }
-
             double[,] inverseMatrix = new double[n, n];
             for (int i = 0; i < n; i++)
             {
@@ -115,21 +166,19 @@ namespace Lab1_ASPPR
                     inverseMatrix[i, j] = Math.Round(augmentedMatrix[i, j + n], 2);
                 }
             }
-
             return inverseMatrix;
         }
 
         public static (double[] Solutions, string Protocol) Solve(double[,] matrixA, double[] matrixB)
         {
             int n = matrixA.GetLength(0);
-
             if (matrixA.GetLength(1) != n || matrixB.Length != n)
                 throw new ArgumentException("Розмірність матриці коефіцієнтів та вектора вільних членів не збігається.");
-
+            
             double[,] augmentedMatrix = new double[n, n + 1];
             StringBuilder protocol = new StringBuilder();
 
-            protocol.AppendLine("Формування розширеної матриці [A | b]:");
+            protocol.AppendLine("Формування розширеної матриці [A | -B]:");
             for (int i = 0; i < n; i++)
             {
                 for (int j = 0; j < n; j++)
@@ -140,65 +189,57 @@ namespace Lab1_ASPPR
             }
             protocol.AppendLine(MatrixGenerator.MatrixToString(augmentedMatrix));
 
-            for (int i = 0; i < n; i++)
+            for (int step = 0; step < n; step++)
             {
-                protocol.AppendLine($"Крок {i + 1}:");
-                double pivot = augmentedMatrix[i, i];
-                protocol.AppendLine($"Розв'язувальний елемент: A[{i + 1},{i + 1}] = {pivot:F2}");
-
+                protocol.AppendLine($"Крок #{step + 1}");
+                double pivot = augmentedMatrix[step, step];
                 if (pivot == 0)
                 {
-                    bool swapped = false;
-                    for (int j = i + 1; j < n; j++)
-                    {
-                        if (augmentedMatrix[j, i] != 0)
-                        {
-                            SwapRows(augmentedMatrix, i, j);
-                            swapped = true;
-                            protocol.AppendLine($"Рядки {i + 1} та {j + 1} були поміняні місцями.");
-                            protocol.AppendLine(MatrixGenerator.MatrixToString(augmentedMatrix));
-                            pivot = augmentedMatrix[i, i];
-                            protocol.AppendLine($"Новий розв'язувальний елемент: A[{i + 1},{i + 1}] = {pivot:F2}");
-                            break;
-                        }
-                    }
-                    if (!swapped)
-                        throw new InvalidOperationException("Система не має розв’язків або має нескінченну кількість розв’язків.");
+                    throw new InvalidOperationException("Система не має унікального розв'язку (неможливо обрати розв'язувальний елемент).");
                 }
 
-                protocol.AppendLine($"Нормалізація рядка {i + 1} (ділення на {pivot:F2}):");
-                for (int j = 0; j < n + 1; j++)
+                protocol.AppendLine($"Розв'язувальний елемент: A[{step + 1},{step + 1}] = {pivot:F2}");
+                for (int i = 0; i < n; i++)
                 {
-                    augmentedMatrix[i, j] /= pivot;
+                    for (int j = 0; j <= n; j++)
+                    {
+                        if (i != step && j != step)
+                        {
+                            augmentedMatrix[i, j] = Math.Round(
+                                (augmentedMatrix[i, j] * pivot - augmentedMatrix[i, step] * augmentedMatrix[step, j]) / pivot,
+                                2
+                            );
+                        }
+                    }
                 }
+                for (int j = 0; j <= n; j++)
+                {
+                    if (j != step)
+                    {
+                        augmentedMatrix[step, j] = Math.Round(augmentedMatrix[step, j] / pivot, 2);
+                    }
+                }
+                for (int i = 0; i < n; i++)
+                {
+                    if (i != step)
+                    {
+                        augmentedMatrix[i, step] = Math.Round(-augmentedMatrix[i, step] / pivot, 2);
+                    }
+                }
+                augmentedMatrix[step, step] = Math.Round(1 / pivot, 2);
+                protocol.AppendLine("Матриця після виконання Жорданових виключень:");
                 protocol.AppendLine(MatrixGenerator.MatrixToString(augmentedMatrix));
-
-                for (int j = 0; j < n; j++)
-                {
-                    if (j != i)
-                    {
-                        double factor = augmentedMatrix[j, i];
-                        protocol.AppendLine($"Віднімання {factor:F2} * рядка {i + 1} від рядка {j + 1}:");
-                        for (int k = 0; k < n + 1; k++)
-                        {
-                            augmentedMatrix[j, k] -= factor * augmentedMatrix[i, k];
-                        }
-                        protocol.AppendLine(MatrixGenerator.MatrixToString(augmentedMatrix));
-                    }
-                }
             }
 
             double[] solutions = new double[n];
-            protocol.AppendLine("Витяг розв’язків:");
+            protocol.AppendLine("Витяг розв'язків:");
             for (int i = 0; i < n; i++)
             {
-                solutions[i] = Math.Round(augmentedMatrix[i, n], 2);
-                protocol.AppendLine($"X[{i + 1}] = {solutions[i]:F2}");
+                solutions[i] = Math.Round(-augmentedMatrix[i, n], 1);
+                protocol.AppendLine($"X[{i + 1}] = {solutions[i]:F1}");
             }
-
             return (solutions, protocol.ToString());
         }
-
 
         public static double[,] StringToMatrix(string input)
         {
