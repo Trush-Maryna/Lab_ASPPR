@@ -16,7 +16,7 @@
             if (disposing && (components != null))
             {
                 components.Dispose();
-            }
+            } 
             base.Dispose(disposing);
         }
 
@@ -111,7 +111,7 @@
             // checkBMax
             // 
             checkBMax.AutoSize = true;
-            checkBMax.Location = new Point(336, 47);
+            checkBMax.Location = new Point(345, 47);
             checkBMax.Name = "checkBMax";
             checkBMax.Size = new Size(59, 24);
             checkBMax.TabIndex = 45;
@@ -121,7 +121,7 @@
             // checkBMin
             // 
             checkBMin.AutoSize = true;
-            checkBMin.Location = new Point(336, 17);
+            checkBMin.Location = new Point(345, 17);
             checkBMin.Name = "checkBMin";
             checkBMin.Size = new Size(56, 24);
             checkBMin.TabIndex = 44;
