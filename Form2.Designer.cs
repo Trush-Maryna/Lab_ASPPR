@@ -44,6 +44,7 @@
             chBoxAtTheFile = new CheckBox();
             chBoxOnTheScreen = new CheckBox();
             chBoxProtocol = new CheckBox();
+            btn_example = new Button();
             SuspendLayout();
             // 
             // txtBSolveX
@@ -87,6 +88,7 @@
             btnSolve.TabIndex = 48;
             btnSolve.Text = "Знайти оптимальний розв'язок";
             btnSolve.UseVisualStyleBackColor = true;
+            btnSolve.Click += btnSolve_Click;
             // 
             // txtBoxCount
             // 
@@ -174,6 +176,7 @@
             chBoxAtTheFile.TabIndex = 39;
             chBoxAtTheFile.Text = "В файл";
             chBoxAtTheFile.UseVisualStyleBackColor = true;
+            chBoxAtTheFile.CheckedChanged += chBoxAtTheFile_CheckedChanged;
             // 
             // chBoxOnTheScreen
             // 
@@ -184,6 +187,7 @@
             chBoxOnTheScreen.TabIndex = 38;
             chBoxOnTheScreen.Text = "На екран";
             chBoxOnTheScreen.UseVisualStyleBackColor = true;
+            chBoxOnTheScreen.CheckedChanged += chBoxOnTheScreen_CheckedChanged;
             // 
             // chBoxProtocol
             // 
@@ -195,12 +199,25 @@
             chBoxProtocol.TabIndex = 37;
             chBoxProtocol.Text = "Формувати протокол обчислень";
             chBoxProtocol.UseVisualStyleBackColor = true;
+            chBoxProtocol.CheckedChanged += chBoxProtocol_CheckedChanged;
+            // 
+            // btn_example
+            // 
+            btn_example.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btn_example.Location = new Point(407, 17);
+            btn_example.Name = "btn_example";
+            btn_example.Size = new Size(94, 54);
+            btn_example.TabIndex = 53;
+            btn_example.Text = "Приклад";
+            btn_example.UseVisualStyleBackColor = true;
+            btn_example.Click += btn_example_Click;
             // 
             // Form2
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btn_example);
             Controls.Add(txtBSolveX);
             Controls.Add(label5);
             Controls.Add(txtBSolveZ);
@@ -241,5 +258,6 @@
         private CheckBox chBoxAtTheFile;
         private CheckBox chBoxOnTheScreen;
         private CheckBox chBoxProtocol;
+        private Button btn_example;
     }
 }
