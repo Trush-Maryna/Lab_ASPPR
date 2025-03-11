@@ -41,9 +41,6 @@
             tBZ = new TextBox();
             label1 = new Label();
             tBLimit = new TextBox();
-            chBoxAtTheFile = new CheckBox();
-            chBoxOnTheScreen = new CheckBox();
-            chBoxProtocol = new CheckBox();
             btn_example = new Button();
             SuspendLayout();
             // 
@@ -82,7 +79,7 @@
             // btnSolve
             // 
             btnSolve.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnSolve.Location = new Point(383, 185);
+            btnSolve.Location = new Point(383, 147);
             btnSolve.Name = "btnSolve";
             btnSolve.Size = new Size(227, 73);
             btnSolve.TabIndex = 48;
@@ -93,7 +90,7 @@
             // txtBoxCount
             // 
             txtBoxCount.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            txtBoxCount.Location = new Point(380, 123);
+            txtBoxCount.Location = new Point(383, 50);
             txtBoxCount.Multiline = true;
             txtBoxCount.Name = "txtBoxCount";
             txtBoxCount.ScrollBars = ScrollBars.Both;
@@ -104,7 +101,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(380, 89);
+            label3.Location = new Point(383, 16);
             label3.Name = "label3";
             label3.Size = new Size(140, 20);
             label3.TabIndex = 46;
@@ -113,7 +110,7 @@
             // checkBMax
             // 
             checkBMax.AutoSize = true;
-            checkBMax.Location = new Point(345, 47);
+            checkBMax.Location = new Point(616, 42);
             checkBMax.Name = "checkBMax";
             checkBMax.Size = new Size(59, 24);
             checkBMax.TabIndex = 45;
@@ -123,7 +120,7 @@
             // checkBMin
             // 
             checkBMin.AutoSize = true;
-            checkBMin.Location = new Point(345, 17);
+            checkBMin.Location = new Point(616, 12);
             checkBMin.Name = "checkBMin";
             checkBMin.Size = new Size(56, 24);
             checkBMin.TabIndex = 44;
@@ -167,44 +164,10 @@
             tBLimit.Size = new Size(300, 145);
             tBLimit.TabIndex = 40;
             // 
-            // chBoxAtTheFile
-            // 
-            chBoxAtTheFile.AutoSize = true;
-            chBoxAtTheFile.Location = new Point(685, 47);
-            chBoxAtTheFile.Name = "chBoxAtTheFile";
-            chBoxAtTheFile.Size = new Size(79, 24);
-            chBoxAtTheFile.TabIndex = 39;
-            chBoxAtTheFile.Text = "В файл";
-            chBoxAtTheFile.UseVisualStyleBackColor = true;
-            chBoxAtTheFile.CheckedChanged += chBoxAtTheFile_CheckedChanged;
-            // 
-            // chBoxOnTheScreen
-            // 
-            chBoxOnTheScreen.AutoSize = true;
-            chBoxOnTheScreen.Location = new Point(515, 47);
-            chBoxOnTheScreen.Name = "chBoxOnTheScreen";
-            chBoxOnTheScreen.Size = new Size(95, 24);
-            chBoxOnTheScreen.TabIndex = 38;
-            chBoxOnTheScreen.Text = "На екран";
-            chBoxOnTheScreen.UseVisualStyleBackColor = true;
-            chBoxOnTheScreen.CheckedChanged += chBoxOnTheScreen_CheckedChanged;
-            // 
-            // chBoxProtocol
-            // 
-            chBoxProtocol.AutoSize = true;
-            chBoxProtocol.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            chBoxProtocol.Location = new Point(515, 17);
-            chBoxProtocol.Name = "chBoxProtocol";
-            chBoxProtocol.Size = new Size(269, 24);
-            chBoxProtocol.TabIndex = 37;
-            chBoxProtocol.Text = "Формувати протокол обчислень";
-            chBoxProtocol.UseVisualStyleBackColor = true;
-            chBoxProtocol.CheckedChanged += chBoxProtocol_CheckedChanged;
-            // 
             // btn_example
             // 
             btn_example.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btn_example.Location = new Point(407, 17);
+            btn_example.Location = new Point(678, 12);
             btn_example.Name = "btn_example";
             btn_example.Size = new Size(94, 54);
             btn_example.TabIndex = 53;
@@ -231,9 +194,6 @@
             Controls.Add(tBZ);
             Controls.Add(label1);
             Controls.Add(tBLimit);
-            Controls.Add(chBoxAtTheFile);
-            Controls.Add(chBoxOnTheScreen);
-            Controls.Add(chBoxProtocol);
             Name = "Form2";
             Text = "Розв'язання ЗЛП (МЖВ)";
             ResumeLayout(false);
@@ -255,9 +215,6 @@
         private TextBox tBZ;
         private Label label1;
         private TextBox tBLimit;
-        private CheckBox chBoxAtTheFile;
-        private CheckBox chBoxOnTheScreen;
-        private CheckBox chBoxProtocol;
         private Button btn_example;
     }
 }
