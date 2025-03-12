@@ -539,7 +539,7 @@ namespace Lab1_ASPPR
 
         public static double[,] MatrixFill(int[] variables, string[] rows)
         {
-            double[,] matrix = new double[rows.Length + 1, variables.Length + 1];// rows.Length + 1 => zRow, variables.Length + 1 => right part
+            double[,] matrix = new double[rows.Length + 1, variables.Length + 1];
 
             for (int i = 0; i < rows.Length; i++)
             {
@@ -566,7 +566,7 @@ namespace Lab1_ASPPR
 
                     for (int j = 0; j < variables.Length; j++)
                     {
-                        matrix[i, j] = vars[j]; //*-1
+                        matrix[i, j] = vars[j];
                     }
 
                     matrix[i, variables.Length] = int.Parse(rowParts[1]);
@@ -591,7 +591,6 @@ namespace Lab1_ASPPR
             {
                 tempVariable = 1;
 
-                //x value
                 if (zString[0] == '-')
                 {
                     tempVariable *= -1;
@@ -615,10 +614,8 @@ namespace Lab1_ASPPR
                     tempVariable *= int.Parse(coeff);
                 }
 
-                //remowe 'x'
                 zString = zString.Substring(1);
 
-                //x index
                 string xIndex = string.Empty;
                 while (zString.Length > 0 && zString[0] != '-' && zString[0] != '+')
                 {
@@ -638,21 +635,6 @@ namespace Lab1_ASPPR
             }
 
             return variables;
-        }
-
-        private static void FancyPrintMatrixOnRichTextBox(double[,] incertMatrix, RichTextBox richTextBox)
-        {
-            //richTextBox.Clear();
-
-            for (int i = 0; i < incertMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < incertMatrix.GetLength(1); j++)
-                {
-                    richTextBox.Text += Math.Round(incertMatrix[i, j], 3);
-                    richTextBox.Text += "\t";
-                }
-                richTextBox.Text += "\n";
-            }
         }
 
         public static double[] SupportSolution(ref double[,] matrix, StringBuilder protocolText, out int[] rowsHeading, out int[] colsHeading)
@@ -719,7 +701,6 @@ namespace Lab1_ASPPR
 
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
 
-                // Формуємо назви змінних для PrintProtocol2
                 string[] baseVariables = rowsHeading.Select(v => v < 0 ? $"y{Math.Abs(v)}" : $"x{v}").ToArray();
                 string[] freeVariables = colsHeading.Select(v => v < 0 ? $"y{Math.Abs(v)}" : $"x{v}").ToArray();
 
@@ -796,7 +777,6 @@ namespace Lab1_ASPPR
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
 
-                // Формуємо назви змінних
                 string[] baseVariables = rowsHeading.Select(v => v < 0 ? $"y{Math.Abs(v)}" : $"x{v}").ToArray();
                 string[] freeVariables = colsHeading.Select(v => v < 0 ? $"y{Math.Abs(v)}" : $"x{v}").ToArray();
 
@@ -857,14 +837,12 @@ namespace Lab1_ASPPR
 
             double ars = tempMatrix[row, col];
 
-            //main col
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
                 insertMatrix[i, col] = -tempMatrix[i, col];
             }
             insertMatrix[row, col] = 1;
 
-            //other cols
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
                 if (i == row) continue;
@@ -876,7 +854,6 @@ namespace Lab1_ASPPR
                 }
             }
 
-            //division
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
                 for (int j = 0; j < insertMatrix.GetLength(1); j++)
